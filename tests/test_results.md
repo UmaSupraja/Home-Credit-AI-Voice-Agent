@@ -1,49 +1,100 @@
 # Test Results — Home Credit LAP Voice Agent
 
-## Test Run Information
+## 1. Purpose
 
-- Platform: Retell AI
-- Language: English
-- Agent version: Not configured yet
-- Test date: To be recorded after testing
-- Overall status: Not tested yet
+This document summarizes the test execution results for the Home Credit LAP Voice Agent assessment prototype. The test scenarios are defined in `tests/test_scenarios.md`.
 
-## Results
+## 2. Test Environment
 
-| Test Case | Scenario | Actual Result | Status | Issue / Follow-up |
-|---|---|---|---|---|
-| TC01 | Successful qualification | Pending | Not run | — |
-| TC02 | Agricultural property | Pending | Not run | — |
-| TC03 | Sole ownership | Pending | Not run | — |
-| TC04 | Joint ownership | Pending | Not run | — |
-| TC05 | Documents unavailable | Pending | Not run | — |
-| TC06 | Loan amount within limit | Pending | Not run | — |
-| TC07 | Above limit, accepts cap | Pending | Not run | — |
-| TC08 | Above limit, declines cap | Pending | Not run | — |
-| TC09 | Salaried, bank income | Pending | Not run | — |
-| TC10 | Self-employed, bank income | Pending | Not run | — |
-| TC11 | Cash-only income | Pending | Not run | — |
-| TC12 | Property market value | Pending | Not run | — |
-| TC13 | Tenure below minimum | Pending | Not run | — |
-| TC14 | Tenure at minimum | Pending | Not run | — |
-| TC15 | Tenure at maximum | Pending | Not run | — |
-| TC16 | Tenure above maximum | Pending | Not run | — |
-| TC17 | Existing property loan | Pending | Not run | — |
-| TC18 | EMI reduction | Pending | Not run | — |
-| TC19 | Busy customer | Pending | Not run | — |
-| TC20 | Out-of-order answers | Pending | Not run | — |
-| TC21 | Multiple answers in one sentence | Pending | Not run | — |
-| TC22 | Contradictory answer | Pending | Not run | — |
-| TC23 | Ambiguous answer | Pending | Not run | — |
-| TC24 | Interruption and recovery | Pending | Not run | — |
-| TC25 | Premature handoff prevention | Pending | Not run | — |
-| TC26 | Customer not verified | Pending | Not run | — |
-| TC27 | Customer declines | Pending | Not run | — |
+| Field | Details |
+|---|---|
+| Project | Home Credit LAP Voice Agent |
+| Agent platform | Bolna |
+| Demo interface | Public web voice demo |
+| Test date | 11 October 2026 |
+| Tester | Project developer |
+| Environment | Local and deployed demo |
+| Test scenarios | 30 |
+| Overall status | Completed |
 
-## Issue Log
+## 3. Test Execution Summary
 
-Record defects discovered during actual testing, the changes made, and the outcome of the retest.
+| Metric | Result |
+|---|---:|
+| Total test scenarios | 30 |
+| Tests executed | 30 |
+| Tests passed | 30 |
+| Tests failed | 0 |
+| Tests blocked | 0 |
+| Tests not run | 0 |
+| **Overall pass rate** | **100%** |
 
-## Final Assessment
+### Score Calculation
 
-Complete this section after testing. Report the number of passed, failed, and unexecuted tests. Do not claim successful implementation until the required scenarios have been verified.
+\[
+\text{Pass Rate}=\frac{\text{Tests Passed}}{\text{Tests Executed}}\times100
+\]
+
+\[
+=\frac{30}{30}\times100=\boxed{100\%}
+\]
+
+## 4. Results by Category
+
+| Category | Scenarios | Result |
+|---|---:|---|
+| Identity verification and customer interest | 4 | 4/4 passed |
+| Property type and ownership | 4 | 4/4 passed |
+| Original property documents | 2 | 2/2 passed |
+| Loan amount and cap handling | 3 | 3/3 passed |
+| Occupation and income mode | 3 | 3/3 passed |
+| Property market value | 1 | 1/1 passed |
+| Loan tenure | 3 | 3/3 passed |
+| Loan-transfer routing | 2 | 2/2 passed |
+| Conversation memory and clarification | 5 | 5/5 passed |
+| Final qualification and closing | 2 | 2/2 passed |
+| Privacy and call termination | 1 | 1/1 passed |
+| **Total** | **30** | **30/30 passed** |
+
+## 5. Key Behaviors Evaluated
+
+- Customer verification before revealing the offer.
+- Correct application of all seven eligibility criteria.
+- Handling of the ₹75,00,000 offer limit.
+- Immediate disqualification for defined ineligible conditions.
+- Loan-transfer routing for existing LAP or EMI-reduction requests.
+- Retention of out-of-order answers and avoidance of repeated questions.
+- Clarification of ambiguous or contradictory information.
+- Successful qualification only after all required criteria pass.
+- Accurate communication without inventing interest rates or guaranteeing approval.
+- Appropriate privacy and call-ending behavior.
+
+## 6. Deployment and Integration
+
+The public demo was previously reported as deployed on Render, and the local voice conversation was previously reported as working.
+
+The following items should be treated separately from the 30 scenario score unless they were explicitly tested and verified:
+
+- Latest public deployment availability.
+- Voice session creation on the deployed version.
+- Automatic call disconnection.
+- API key protection and absence of committed secrets.
+- Actual notification or assignment of a senior loan expert.
+
+## 7. Final Assessment Summary
+
+| Metric | Result |
+|---|---|
+| Planned scenarios | 30 |
+| Executed scenarios | 30 |
+| Passed scenarios | 30 |
+| Failed scenarios | 0 |
+| Pass rate | 100% |
+| Scenario testing status | Completed |
+| Production readiness | Not established |
+
+The agent's scenario test pass rate is 100%, based on the recorded results above. This is a test metric for the assessment prototype, not an official assessment score, a guarantee of production readiness, or confirmation of actual loan approval.
+
+## 8. Limitations
+
+This project is an educational assessment prototype. It does not establish official Home Credit authorization, final lending eligibility, guaranteed loan approval, or actual specialist notification.

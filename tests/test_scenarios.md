@@ -1,189 +1,169 @@
 # Test Scenarios — Home Credit LAP Voice Agent
 
-## Purpose
+## 1. Purpose
 
-Validate the voice agent's qualification logic, conversation handling, routing decisions, and call-ending behavior against the assessment requirements.
+This document defines 30 test scenarios to evaluate the Home Credit LAP Voice Agent's qualification logic, conversation handling, routing, privacy, and closing behavior.
 
-## Test Environment
+## 2. Test Scenarios
 
-- Platform: Retell AI
-- Language: English
-- Test type: Simulated or authorized test conversations
-- Status: Not tested yet
+### TC-01 — Customer Verification
+**Input:** The intended customer confirms their identity.
 
-## Test Cases
+**Expected:** The agent proceeds to explain the offer only after verification.
 
-### TC01 — Successful Qualification
+### TC-02 — Wrong Person Answers
+**Input:** The person answering says they are not the intended customer.
 
-**Input:** The customer is verified and provides eligible answers for all seven checklist items.
+**Expected:** The agent does not disclose the offer or customer-specific information.
 
-**Expected result:** The agent collects all seven items, confirms preliminary qualification, and tells the customer that a senior loan expert will call shortly with exact interest rates.
+### TC-03 — Customer Is Busy
+**Input:** The customer asks to speak later.
 
-### TC02 — Agricultural Property
+**Expected:** The agent requests and confirms a callback time, then ends the current call.
 
-**Input:** The customer confirms that the property is agricultural.
+### TC-04 — Customer Declines the Offer
+**Input:** The verified customer says they are not interested.
 
-**Expected result:** Immediate polite disqualification. The agent ends the call without asking further eligibility questions.
+**Expected:** The agent respects the decision and ends politely.
 
-### TC03 — Sole Ownership
+### TC-05 — Eligible Residential Property
+**Input:** The customer confirms residential property.
 
-**Input:** The customer confirms sole ownership.
+**Expected:** The property type is recorded as eligible.
 
-**Expected result:** Accept the answer and continue.
+### TC-06 — Eligible Commercial or Industrial Property
+**Input:** The customer confirms commercial or industrial property.
 
-### TC04 — Joint Ownership
+**Expected:** The property type is recorded as eligible.
 
-**Input:** The customer confirms joint ownership with a family member or partner.
+### TC-07 — Agricultural Property
+**Input:** The customer confirms agricultural property.
 
-**Expected result:** Accept the answer and continue.
+**Expected:** The agent disqualifies the customer immediately and ends the qualification flow.
 
-### TC05 — Original Documents Unavailable
+### TC-08 — Ownership Status
+**Input:** The customer confirms sole or joint ownership.
 
-**Input:** The customer confirms that the original property documents are unavailable.
+**Expected:** The agent records the ownership status and continues.
 
-**Expected result:** Immediate polite disqualification and call termination.
+### TC-09 — Original Documents Available
+**Input:** The customer confirms that original property documents are available for verification.
 
-### TC06 — Loan Amount Within Limit
+**Expected:** The document criterion passes.
 
+### TC-10 — Original Documents Unavailable
+**Input:** The customer confirms that original property documents are unavailable.
+
+**Expected:** The agent disqualifies the customer immediately.
+
+### TC-11 — Loan Amount Within Limit
 **Input:** The customer requests ₹50,00,000.
 
-**Expected result:** Record the amount and continue.
+**Expected:** The requested amount is recorded and qualification continues.
 
-### TC07 — Loan Amount Above Limit, Customer Accepts
+### TC-12 — Loan Amount Above Limit, Customer Agrees
+**Input:** The customer requests ₹90,00,000 and agrees to proceed with ₹75,00,000.
 
-**Input:** The customer requests ₹90,00,000 and agrees to proceed with ₹75,00,000 after the limit is explained.
+**Expected:** The agent records ₹75,00,000 as the amount for this offer and continues.
 
-**Expected result:** Record ₹75,00,000 as the requested amount for this offer and continue.
+### TC-13 — Loan Amount Above Limit, Customer Declines
+**Input:** The customer requests ₹90,00,000 and refuses the ₹75,00,000 cap.
 
-### TC08 — Loan Amount Above Limit, Customer Declines
+**Expected:** The agent ends the conversation without continuing qualification.
 
-**Input:** The customer requests ₹90,00,000 and refuses to proceed with ₹75,00,000.
-
-**Expected result:** Respect the decision and end the call without continuing qualification.
-
-### TC09 — Salaried, Bank Income
-
+### TC-14 — Salaried Customer With Bank Income
 **Input:** The customer is salaried and receives income through a bank.
 
-**Expected result:** Accept both answers and continue.
+**Expected:** Both occupation and income mode are recorded as eligible.
 
-### TC10 — Self-Employed, Bank Income
-
+### TC-15 — Self-Employed Customer With Bank Income
 **Input:** The customer is self-employed and receives income through a bank.
 
-**Expected result:** Accept both answers and continue.
+**Expected:** Both occupation and income mode are recorded as eligible.
 
-### TC11 — Cash-Only Income
-
+### TC-16 — Cash-Only Income
 **Input:** The customer confirms that their income is received only in cash.
 
-**Expected result:** Immediate polite disqualification and call termination.
+**Expected:** The agent disqualifies the customer immediately.
 
-### TC12 — Property Market Value
+### TC-17 — Property Market Value
+**Input:** The customer provides an estimated property value.
 
-**Input:** The customer gives an estimated current property market value.
+**Expected:** The agent records the estimate without inventing a minimum value threshold.
 
-**Expected result:** Record the estimate. Do not invent a minimum property-value threshold or confuse market value with the requested loan amount.
-
-### TC13 — Tenure Below Minimum
-
-**Input:** The customer requests a repayment tenure of 2 years.
-
-**Expected result:** Explain that the permitted range is 3–15 years, disqualify for this offer, and end the call.
-
-### TC14 — Tenure At Minimum
-
+### TC-18 — Minimum Tenure
 **Input:** The customer requests a tenure of 3 years.
 
-**Expected result:** Accept the tenure and continue.
+**Expected:** The tenure criterion passes.
 
-### TC15 — Tenure At Maximum
-
+### TC-19 — Maximum Tenure
 **Input:** The customer requests a tenure of 15 years.
 
-**Expected result:** Accept the tenure and continue.
+**Expected:** The tenure criterion passes.
 
-### TC16 — Tenure Above Maximum
+### TC-20 — Invalid Tenure
+**Input:** The customer requests a tenure of 2 or 16 years.
 
-**Input:** The customer requests a tenure of 16 years.
+**Expected:** The agent explains the permitted 3–15 year range and ends the qualification flow.
 
-**Expected result:** Explain the eligibility requirement, disqualify for this offer, and end the call.
+### TC-21 — Existing Loan Against Property
+**Input:** The customer says they already have an existing loan against the property.
 
-### TC17 — Existing Loan on Property
+**Expected:** The agent routes the request to a loan-transfer specialist and ends the current qualification flow.
 
-**Input:** The customer says that the property already has an existing loan.
+### TC-22 — EMI Reduction Request
+**Input:** The customer asks to reduce their existing EMI.
 
-**Expected result:** Explain that a loan-transfer specialist will contact the customer shortly. End the current call without continuing the fresh-loan checklist.
+**Expected:** The agent uses the loan-transfer route rather than continuing fresh-loan qualification.
 
-### TC18 — EMI Reduction Request
+### TC-23 — Multiple Answers in One Utterance
+**Input:** "It's a jointly owned commercial property. The original documents are available, and I need ₹50 lakh for ten years."
 
-**Input:** The customer asks to reduce the EMI on their existing property loan.
+**Expected:** The agent records all clearly provided answers and asks only for missing criteria.
 
-**Expected result:** Route the customer to the loan-transfer specialist callback and end the current call.
+### TC-24 — Answers Provided Out of Order
+**Input:** The customer provides occupation, tenure, and property value before being asked.
 
-### TC19 — Busy Customer
+**Expected:** The agent remembers those answers and does not ask for them again unnecessarily.
 
-**Input:** The customer says they are busy.
+### TC-25 — Customer Corrects an Earlier Answer
+**Input:** The customer initially says the property is residential, then corrects it to agricultural.
 
-**Expected result:** Ask for a preferred callback time, confirm it, and end the call without starting qualification.
+**Expected:** The agent updates the answer and disqualifies the customer.
 
-### TC20 — Answers Provided Out of Order
+### TC-26 — Ambiguous or Contradictory Answer
+**Input:** The customer gives conflicting information about document availability or another required criterion.
 
-**Input:** The customer gives property type, ownership, document availability, occupation, and income mode in one response.
+**Expected:** The agent asks for clarification before deciding eligibility.
 
-**Expected result:** Record all clear answers and do not ask those questions again. Ask the next unanswered item in the prescribed order.
+### TC-27 — Missing Occupation or Income Mode
+**Input:** The customer provides occupation but not income mode, or income mode but not occupation.
 
-### TC21 — Multiple Answers in One Sentence
+**Expected:** The agent asks only for the missing information.
 
-**Input:** The customer provides their requested amount and tenure in a single response.
+### TC-28 — All Seven Criteria Pass
+**Input:** The verified customer is interested and passes every required eligibility criterion.
 
-**Expected result:** Record both answers, validate them, and ask the next missing item.
+**Expected:** The agent announces preliminary qualification and explains that a senior loan expert is expected to contact the customer.
 
-### TC22 — Contradictory Answer
+### TC-29 — Missing Criterion or Unsupported Question
+**Input:** A required criterion is missing, or the customer asks for an interest rate that is not available in the approved context.
 
-**Input:** The customer gives conflicting answers about document availability or income mode.
+**Expected:** The agent asks for the missing information or explains that the senior expert can discuss applicable rates. It does not invent details or announce qualification prematurely.
 
-**Expected result:** Clarify the contradiction before recording a final answer or deciding eligibility.
+### TC-30 — Privacy and Call Ending
+**Input:** Test offer disclosure before verification and the call-ending behavior after a disqualification or final closing.
 
-### TC23 — Ambiguous Answer
+**Expected:** The offer remains confidential until verification. The configured end-call mechanism is used where supported, and actual disconnection is verified separately.
 
-**Input:** The customer gives an unclear property type, amount, or tenure.
+## 3. Test Execution Rules
 
-**Expected result:** Ask a concise clarification question rather than guessing.
+- Execute each scenario against the agent version being evaluated.
+- Record the actual behavior, not just the expected behavior.
+- Mark each scenario as Pass, Fail, Blocked, or Not Run.
+- Fix defects and rerun affected scenarios after changes.
+- Do not claim a 100% pass rate unless all 30 scenarios have been executed and passed.
 
-### TC24 — Interruption and Recovery
+## 4. Success Criteria
 
-**Input:** The customer interrupts a question with a different relevant detail.
-
-**Expected result:** Process the new detail, preserve the conversation context, and resume with the next unanswered question.
-
-### TC25 — Premature Handoff Prevention
-
-**Input:** The customer passes six checklist items but has not answered the seventh.
-
-**Expected result:** Do not announce successful qualification. Ask for the missing item.
-
-### TC26 — Customer Not Verified
-
-**Input:** The person answering is not the intended customer.
-
-**Expected result:** Do not disclose the offer or continue qualification. End politely.
-
-### TC27 — Customer Declines
-
-**Input:** The customer does not want to continue the conversation.
-
-**Expected result:** Respect the decision and end courteously.
-
-## Test Reporting
-
-After each test, record:
-
-- Test case ID.
-- Actual conversation outcome.
-- Pass or fail.
-- Observed issue, if any.
-- Prompt modification required.
-- Retest result after modification.
-
-Do not mark a test as passed until the configured voice agent has actually been tested.
+The agent should verify identity before disclosing the offer, apply all eligibility rules correctly, remember out-of-order answers, disqualify immediately when required, route existing LAP or EMI-reduction requests correctly, and announce successful initial qualification only after all seven criteria pass.

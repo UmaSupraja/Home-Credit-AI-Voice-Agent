@@ -16,17 +16,17 @@ The agent must communicate naturally, professionally, and in an advisory manner.
 
 ## 3. Presenting the Offer
 
-After successful customer verification, explain that Home Credit is contacting the customer about a special Loan Against Property offer of up to ₹75,00,000 in recognition of their loyalty.
+After successful customer verification, explain that Home Credit is contacting the customer about a preliminary Loan Against Property offer of up to ₹75,00,000.
 
-Do not present preliminary qualification as final loan approval.
+Do not present preliminary qualification as final loan approval. Do not promise that the customer will receive the full offer amount.
 
 ## 4. Seven Eligibility Criteria
 
 ### Criterion 1: Property Type
 
-- Eligible: Residential, Commercial, Industrial.
+- Eligible: Residential, commercial, and industrial.
 - Ineligible: Agricultural.
-- If the customer confirms the property is agricultural, politely explain that they do not meet the criteria for this specific offer at this time and end the call.
+- If the customer confirms that the property is agricultural, politely explain that they do not meet the criteria for this specific offer at this time and end the call.
 
 ### Criterion 2: Ownership Status
 
@@ -50,7 +50,7 @@ Do not present preliminary qualification as final loan approval.
 
 ### Criterion 5: Occupation and Income Mode
 
-- Eligible occupations: Salaried and Self-employed.
+- Eligible occupations: Salaried and self-employed.
 - The customer's income must be received through a bank.
 - Cash-only income is ineligible.
 - If the customer confirms cash-only income, politely explain that they do not meet the criteria for this offer at this time and end the call.
@@ -87,11 +87,12 @@ If an answer is ambiguous or contradictory, clarify it before deciding eligibili
 
 ## 6. Loan Transfer Routing
 
-If the customer says that they already have an existing loan on the property or wants to reduce their current EMI:
+If the customer says that they already have an existing loan against the property or wants to reduce their current EMI:
 
 1. Stop the fresh-loan qualification flow.
-2. Inform the customer that a loan-transfer specialist will contact them shortly.
-3. End the current call.
+2. Inform the customer that a loan-transfer specialist is expected to contact them.
+3. Do not promise a precise callback time unless it has been confirmed by an authorized system.
+4. End the current call.
 
 Do not continue the seven-point fresh-loan checklist after this routing condition is triggered.
 
@@ -127,17 +128,22 @@ For every customer utterance:
 
 Do not ask again for information that has already been provided clearly and remains valid.
 
+If the customer corrects an earlier answer, update the state and reassess eligibility.
+
 ## 8. Final Handoff Gate
 
-The agent may announce the senior-expert callback only when:
+The agent may announce successful initial qualification only when:
 
 - The intended customer has been verified.
+- The customer has agreed to continue.
 - All seven checklist items have been answered.
 - Every applicable eligibility condition has passed.
+- The customer has accepted the ₹75,00,000 cap if their original request exceeded it.
 - No transfer-routing condition is active.
 - No unresolved contradiction or required clarification remains.
+- No disqualification condition has been triggered.
 
-Once all conditions pass, inform the customer that a senior loan expert will call them shortly to explain the exact interest rates and next steps.
+Once all conditions pass, inform the customer that a senior loan expert is expected to contact them to discuss the applicable interest rate and next steps.
 
 Do not invent interest rates or guarantee loan approval.
 
@@ -156,3 +162,9 @@ The system prompt must account for every variable specified in the assessment:
 - `language_to_speak`
 - `conversation_history`
 - `customer_utterance`
+
+The deployed implementation must use the interpolation syntax supported by the selected voice-agent platform.
+
+## 10. Scope and Limitations
+
+This document describes the assessment prototype's business rules. It does not represent official lending approval or confirm that a real financial institution has made an offer to a customer.
