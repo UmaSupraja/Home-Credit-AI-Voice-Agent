@@ -1,108 +1,398 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Educational Loan Against Property voice-agent demonstration">
-  <title>Home Credit LAP Voice Assistant</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Home Credit LAP Qualification Agent — educational voice demo"
+  />
+  <title>Home Credit LAP Qualification Agent</title>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      color-scheme: dark;
+      --blue: #72aaff;
+      --cyan: #48e7f5;
+      --muted: #a5b6d3;
+    }
 
     body {
       margin: 0;
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background: #f3f6fb;
-      color: #172033;
-      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+      background:
+        radial-gradient(ellipse at 50% 43%, #0b1b3c 0%, #030916 48%, #010309 100%);
+      color: #f8fbff;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
     }
 
-    .card {
-      width: 100%;
-      max-width: 480px;
-      padding: 32px;
-      text-align: center;
-      background: white;
-      border: 1px solid #e0e6ef;
-      border-radius: 20px;
-      box-shadow: 0 12px 36px #17203312;
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.75;
+      background-image:
+        radial-gradient(circle at 16% 36%, #5f9bff 1.5px, transparent 2px),
+        radial-gradient(circle at 34% 9%, #4f86df 1px, transparent 2px),
+        radial-gradient(circle at 60% 15%, #4b92ff 1px, transparent 2px),
+        radial-gradient(circle at 83% 31%, #628dff 2px, transparent 3px),
+        radial-gradient(circle at 9% 64%, #4e8cff 1px, transparent 2px),
+        radial-gradient(circle at 82% 70%, #4e8cff 1px, transparent 2px),
+        radial-gradient(circle at 54% 85%, #4e8cff 1px, transparent 2px);
     }
 
-    .icon {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 20px;
+    .topbar,
+    .footer {
+      position: absolute;
+      left: 6%;
+      right: 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 2;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+    }
+
+    .topbar {
+      top: 30px;
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.16em;
+    }
+
+    .version {
+      color: var(--muted);
+    }
+
+    .stage {
+      position: relative;
       display: grid;
+      min-height: 100svh;
       place-items: center;
+      padding: 90px 20px 85px;
+      overflow: hidden;
+    }
+
+    .glow-ring {
+      position: absolute;
+      width: min(790px, 125vw);
+      aspect-ratio: 1;
+      border: 2px solid transparent;
       border-radius: 50%;
-      background: #e9efff;
-      font-size: 32px;
+      border-right-color: #65baff;
+      border-bottom-color: #367eff;
+      transform: rotate(-28deg);
+      filter: drop-shadow(0 0 5px #3697ff)
+              drop-shadow(0 0 15px #1269ff);
+      pointer-events: none;
     }
 
-    h1 { font-size: 25px; margin: 0 0 12px; }
-    p { line-height: 1.6; color: #566176; }
+    .glow-ring::before {
+      content: "";
+      position: absolute;
+      width: 42%;
+      height: 42%;
+      left: -2px;
+      top: 12%;
+      border-radius: 50%;
+      border-left: 4px solid #a8d5ff;
+      filter: blur(3px);
+      box-shadow: -5px 0 16px #438dff;
+    }
 
-    .notice {
-      margin: 20px 0;
-      padding: 12px;
-      border-radius: 10px;
-      background: #f3f6fb;
+    .panel {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 390px);
+      min-height: 480px;
+      padding: 48px 24px 34px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border: 1px solid rgba(130, 177, 255, 0.65);
+      border-radius: 38px;
+      background: linear-gradient(
+        145deg,
+        rgba(19, 40, 79, 0.72),
+        rgba(2, 9, 26, 0.84) 65%,
+        rgba(24, 54, 105, 0.55)
+      );
+      box-shadow:
+        inset 0 0 32px rgba(86, 139, 239, 0.12),
+        0 0 35px rgba(30, 93, 200, 0.15);
+      backdrop-filter: blur(18px);
+    }
+
+    .panel h1 {
+      margin: 6px 0 10px;
+      font-size: clamp(26px, 6vw, 34px);
+      font-weight: 400;
+      letter-spacing: 0.015em;
+    }
+
+    .tagline {
+      margin: 0;
       font-size: 13px;
-      text-align: left;
+      color: #e0e9fa;
     }
 
-    button {
+    .wave {
       width: 100%;
-      margin-top: 10px;
-      padding: 14px;
-      border: 0;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
+      max-width: 310px;
+      height: 130px;
+      margin: 28px 0 24px;
+      overflow: visible;
+    }
+
+    .wave-line {
+      fill: none;
+      stroke-width: 1.15;
+      transform-origin: center;
+      animation: wave-pulse 2.6s ease-in-out infinite alternate;
+    }
+
+    .wave-blue {
+      stroke: #567dff;
+    }
+
+    .wave-cyan {
+      stroke: #43e4ef;
+      animation-delay: -1s;
+    }
+
+    .wave-white {
+      stroke: #edf6ff;
+      animation-delay: -0.5s;
+    }
+
+    @keyframes wave-pulse {
+      from {
+        transform: scaleY(0.83);
+        opacity: 0.7;
+      }
+      to {
+        transform: scaleY(1.08);
+        opacity: 1;
+      }
+    }
+
+    .mic-area {
+      margin-top: auto;
+      padding-top: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .mic-button {
+      display: grid;
+      place-items: center;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      border: 5px solid rgba(76, 217, 255, 0.15);
+      background: #f9fcff;
+      color: #101b2b;
+      cursor: pointer;
+      box-shadow:
+        0 0 0 5px rgba(66, 209, 255, 0.08),
+        0 0 22px rgba(65, 196, 255, 0.6);
+      transition: transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .mic-button:hover:not(:disabled) {
+      transform: scale(1.06);
+      box-shadow: 0 0 32px rgba(65, 196, 255, 0.8);
+    }
+
+    .mic-button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .mic-button svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .mic-button.connected {
+      animation: mic-glow 1.8s ease-in-out infinite;
+    }
+
+    @keyframes mic-glow {
+      50% {
+        box-shadow: 0 0 35px rgba(66, 235, 255, 0.9);
+      }
+    }
+
+    .mic-caption {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: #e0e9fb;
+    }
+
+    .actions {
+      display: flex;
+      width: 100%;
+      gap: 10px;
+    }
+
+    .end-button {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid rgba(144, 180, 231, 0.3);
+      border-radius: 9px;
+      color: #e8efff;
+      background: rgba(115, 147, 201, 0.12);
       cursor: pointer;
     }
 
-    #start { background: #244fe0; color: white; }
-    #stop { background: #e9edf5; color: #172033; }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    #status {
-      min-height: 24px;
-      margin-top: 18px;
-      font-size: 14px;
-      color: #244fe0;
+    .end-button:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
     }
 
-    footer { margin-top: 20px; font-size: 12px; color: #737e91; }
+    #status {
+      width: 100%;
+      min-height: 36px;
+      margin: 18px 0 0;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #9fcaff;
+    }
+
+    .footer {
+      bottom: 27px;
+      color: #dce8fa;
+      letter-spacing: 0;
+    }
+
+    .secure {
+      color: #a8d5ff;
+    }
+
+    .notice {
+      max-width: 350px;
+      margin: 0;
+      color: #9eafca;
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 420px) {
+      .panel {
+        min-height: 450px;
+        padding: 38px 20px 26px;
+        border-radius: 30px;
+      }
+
+      .glow-ring {
+        width: 150vw;
+      }
+
+      .footer,
+      .topbar {
+        left: 5%;
+        right: 5%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <main class="card">
-    <div class="icon" aria-hidden="true">🎙️</div>
-    <h1>Loan Against Property Voice Assistant</h1>
-    <p>
-      Explore an interactive voice-agent prototype for preliminary
-      Loan Against Property qualification.
-    </p>
+  <div class="stars" aria-hidden="true"></div>
 
-    <div class="notice">
-      <strong>Educational demonstration</strong><br>
-      This prototype is not a loan approval or a confirmation of an actual
-      financial offer. Your microphone is used during the voice call.
-      Do not share sensitive financial or identity information.
-    </div>
+  <header class="topbar">
+    <span class="brand">HOME CREDIT</span>
+    <span class="version">VOICE · LAP</span>
+  </header>
 
-    <button id="start">Start Voice Call</button>
-    <button id="stop" disabled>End Call</button>
-    <p id="status" role="status" aria-live="polite">Ready to connect.</p>
+  <main class="stage">
+    <div class="glow-ring" aria-hidden="true"></div>
 
-    <footer>Voice demo powered by Bolna Web Call SDK</footer>
+    <section class="panel" aria-labelledby="page-title">
+      <h1 id="page-title">Home Credit</h1>
+      <p class="tagline">LAP Qualification Agent</p>
+
+      <svg
+        class="wave"
+        viewBox="0 0 320 130"
+        role="img"
+        aria-label="Decorative voice waveform"
+      >
+        <line x1="0" y1="65" x2="320" y2="65"
+          stroke="#7189b7" stroke-opacity=".45" />
+
+        <path class="wave-line wave-blue"
+          d="M0 65 C20 65 25 48 42 48 S67 82 85 82 S108 25 128 25 S151 105 170 105 S194 35 212 35 S242 80 260 80 S292 65 320 65" />
+
+        <path class="wave-line wave-cyan"
+          d="M0 65 C24 65 32 57 48 57 S72 90 91 90 S112 20 132 20 S155 112 175 112 S198 42 217 42 S245 75 264 75 S294 65 320 65" />
+
+        <path class="wave-line wave-white"
+          d="M0 65 C25 65 39 77 53 77 S80 43 97 43 S121 100 140 100 S164 11 182 11 S207 90 226 90 S251 48 269 48 S300 65 320 65" />
+      </svg>
+
+      <div class="mic-area">
+        <button
+          id="start"
+          class="mic-button"
+          type="button"
+          aria-label="Start voice call"
+        >
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="9" y="3" width="6" height="12" rx="3"
+              fill="currentColor" />
+            <path d="M6 11.5a6 6 0 0 0 12 0M12 18v3m-4 0h8"
+              stroke="currentColor" stroke-width="1.7"
+              stroke-linecap="round" />
+          </svg>
+        </button>
+
+        <span id="mic-caption" class="mic-caption">TAP TO SPEAK</span>
+
+        <div class="actions">
+          <button id="stop" class="end-button" type="button" disabled>
+            End Call
+          </button>
+        </div>
+      </div>
+
+      <p id="status" role="status" aria-live="polite">
+        Ready to connect.
+      </p>
+
+      <p class="notice">
+        Educational prototype only — not an official loan offer or approval.
+        Avoid sharing sensitive identity or financial information.
+      </p>
+    </section>
   </main>
+
+  <footer class="footer">
+    <span>AI VOICE ASSISTANT</span>
+    <span class="secure">● SECURE DEMO</span>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/gh/bolna-ai/web-call@v3.0.1/dist/bolna-web-call.min.js"></script>
 
@@ -110,46 +400,70 @@
     const startButton = document.getElementById("start");
     const stopButton = document.getElementById("stop");
     const statusText = document.getElementById("status");
+    const micCaption = document.getElementById("mic-caption");
 
     let call = null;
+    let starting = false;
 
     startButton.addEventListener("click", async () => {
-      if (call) return;
+      if (call || starting) return;
 
+      starting = true;
       startButton.disabled = true;
       statusText.textContent = "Requesting a secure call session...";
+      micCaption.textContent = "CONNECTING...";
 
       try {
+        if (typeof BolnaWebCall === "undefined") {
+          throw new Error("Voice SDK did not load. Refresh and try again.");
+        }
+
         call = new BolnaWebCall({
           sessionUrl: "/api/bolna-session"
         });
 
         call.on("call-start", () => {
           statusText.textContent = "Connected. You can start speaking.";
+          micCaption.textContent = "YOU'RE CONNECTED";
+          startButton.classList.add("connected");
           stopButton.disabled = false;
         });
 
-        call.on("call-end", ({ reason }) => {
-          statusText.textContent = "Call ended: " + reason;
+        call.on("call-end", ({ reason } = {}) => {
+          statusText.textContent = reason
+            ? "Call ended: " + reason
+            : "Call ended.";
+          micCaption.textContent = "TAP TO SPEAK";
           call = null;
+          starting = false;
           startButton.disabled = false;
           stopButton.disabled = true;
+          startButton.classList.remove("connected");
         });
 
-        call.on("error", ({ message }) => {
-          statusText.textContent = "Call error: " + (message || "Please try again.");
+        call.on("error", ({ message } = {}) => {
+          statusText.textContent =
+            "Call error: " + (message || "Please try again.");
         });
 
         await call.start();
       } catch (error) {
         statusText.textContent =
+          error.message ||
           "Could not start the call. Check microphone permission and try again.";
+
         if (call) {
-          try { await call.stop(); } catch (_) {}
+          try {
+            await call.stop();
+          } catch (_) {}
         }
+
         call = null;
+        starting = false;
         startButton.disabled = false;
         stopButton.disabled = true;
+        startButton.classList.remove("connected");
+        micCaption.textContent = "TAP TO SPEAK";
       }
     });
 
@@ -162,7 +476,9 @@
       try {
         await call.stop();
       } catch (_) {
-        statusText.textContent = "Unable to end the call cleanly. Please try again.";
+        statusText.textContent =
+          "Unable to end the call cleanly. Please try again.";
+        stopButton.disabled = false;
       }
     });
   </script>
