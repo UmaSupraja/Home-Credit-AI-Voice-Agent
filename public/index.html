@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Educational Loan Against Property voice-agent demonstration">
+  <title>Home Credit LAP Voice Assistant</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: #f3f6fb;
+      color: #172033;
+      font-family: Arial, sans-serif;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      padding: 32px;
+      text-align: center;
+      background: white;
+      border: 1px solid #e0e6ef;
+      border-radius: 20px;
+      box-shadow: 0 12px 36px #17203312;
+    }
+
+    .icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 20px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #e9efff;
+      font-size: 32px;
+    }
+
+    h1 { font-size: 25px; margin: 0 0 12px; }
+    p { line-height: 1.6; color: #566176; }
+
+    .notice {
+      margin: 20px 0;
+      padding: 12px;
+      border-radius: 10px;
+      background: #f3f6fb;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 14px;
+      border: 0;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #start { background: #244fe0; color: white; }
+    #stop { background: #e9edf5; color: #172033; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    #status {
+      min-height: 24px;
+      margin-top: 18px;
+      font-size: 14px;
+      color: #244fe0;
+    }
+
+    footer { margin-top: 20px; font-size: 12px; color: #737e91; }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <div class="icon" aria-hidden="true">🎙️</div>
+    <h1>Loan Against Property Voice Assistant</h1>
+    <p>
+      Explore an interactive voice-agent prototype for preliminary
+      Loan Against Property qualification.
+    </p>
+
+    <div class="notice">
+      <strong>Educational demonstration</strong><br>
+      This prototype is not a loan approval or a confirmation of an actual
+      financial offer. Your microphone is used during the voice call.
+      Do not share sensitive financial or identity information.
+    </div>
+
+    <button id="start">Start Voice Call</button>
+    <button id="stop" disabled>End Call</button>
+    <p id="status" role="status" aria-live="polite">Ready to connect.</p>
+
+    <footer>Voice demo powered by Bolna Web Call SDK</footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/gh/bolna-ai/web-call@v3.0.1/dist/bolna-web-call.min.js"></script>
+
+  <script>
+    const startButton = document.getElementById("start");
+    const stopButton = document.getElementById("stop");
+    const statusText = document.getElementById("status");
+
+    let call = null;
+
+    startButton.addEventListener("click", async () => {
+      if (call) return;
+
+      startButton.disabled = true;
+      statusText.textContent = "Requesting a secure call session...";
+
+      try {
+        call = new BolnaWebCall({
+          sessionUrl: "/api/bolna-session"
+        });
+
+        call.on("call-start", () => {
+          statusText.textContent = "Connected. You can start speaking.";
+          stopButton.disabled = false;
+        });
+
+        call.on("call-end", ({ reason }) => {
+          statusText.textContent = "Call ended: " + reason;
+          call = null;
+          startButton.disabled = false;
+          stopButton.disabled = true;
+        });
+
+        call.on("error", ({ message }) => {
+          statusText.textContent = "Call error: " + (message || "Please try again.");
+        });
+
+        await call.start();
+      } catch (error) {
+        statusText.textContent =
+          "Could not start the call. Check microphone permission and try again.";
+        if (call) {
+          try { await call.stop(); } catch (_) {}
+        }
+        call = null;
+        startButton.disabled = false;
+        stopButton.disabled = true;
+      }
+    });
+
+    stopButton.addEventListener("click", async () => {
+      if (!call) return;
+
+      stopButton.disabled = true;
+      statusText.textContent = "Ending call...";
+
+      try {
+        await call.stop();
+      } catch (_) {
+        statusText.textContent = "Unable to end the call cleanly. Please try again.";
+      }
+    });
+  </script>
+</body>
+</html>

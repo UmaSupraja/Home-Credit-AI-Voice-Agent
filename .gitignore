@@ -1,6 +1,13 @@
+
+# Environment secrets
 .env
 .env.*
 !.env.example
-*.log
-.DS_Store
-Thumbs.db
+
+# Dependencies and generated files
+node_modules/
+dist/
+coverage/
+
+# Local logs
+npm-debug.log*
